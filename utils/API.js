@@ -2,7 +2,11 @@ import { AsyncStorage } from 'react-native'
 const FLASH_CARDS_STORAGE_KEY = "FlashCards:key"
 
 export async function retriveDecks() {
-    const decks = await AsyncStorage.getItem(FLASH_CARDS_STORAGE_KEY);
+    const stateCheck = await AsyncStorage.getItem(FLASH_CARDS_STORAGE_KEY)
+    if ( stateCheck === null ) {
+        AsyncStorage.setItem(FLASH_CARDS_STORAGE_KEY, JSON.stringify([]))
+    }
+    const decks = await AsyncStorage.getItem(FLASH_CARDS_STORAGE_KEY)
     return JSON.parse(decks);
 }
 
@@ -11,18 +15,18 @@ export function retriveOneDeck(deck_id) {
     return decks.find(deck => deck.id.toString() === deck_id)
 }
 
-export function addDeckToStorage(deck) {
-    const newState = addItem(deck)
+export async function addDeckToStorage(deck) {
+    const newState = await addItem(deck)
     AsyncStorage.setItem(FLASH_CARDS_STORAGE_KEY, JSON.stringify(newState))
 }
 
-export function addCardToStorage(card) {
-    const newState = addCardToDeck(card)
+export async function addCardToStorage(card) {
+    const newState = await addCardToDeck(card)
     AsyncStorage.setItem(FLASH_CARDS_STORAGE_KEY, JSON.stringify(newState))
 }
 
-function addCardToDeck(card) {
-    const state = retriveDecks()
+async function addCardToDeck(card) {
+    const state = await retriveDecks()
     return state.map((deck) => {
         if (deck.id === card.deck_id) {
             return {
@@ -34,8 +38,7 @@ function addCardToDeck(card) {
     })
 }
 
-function addItem(item) {
-    const state = retriveDecks()
-    state.push(item)
-    return state
+async function addItem(item) {
+    const result = await retriveDecks()
+    return result.concat(item)
 }
