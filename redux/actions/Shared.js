@@ -2,7 +2,6 @@ import { retriveDecks, retriveOneDeck } from "../../utils/API";
 import { receive_deck } from "./DeckActions";
 
 export function handleInitialData() {
-    console.log("Caiu no dispatch")
     return (dispatch) => {
 
         retriveDecks()
