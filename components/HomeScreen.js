@@ -9,7 +9,7 @@ class HomeScreen extends Component {
     render() {
         return (
             <View>
-                <DeckList />
+                <DeckList navigation={this.props.navigation} />
                 <Button
                     title="Iserir novo deck"
                     onPress={() => {

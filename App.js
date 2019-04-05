@@ -13,6 +13,8 @@ import { Constants } from 'expo'
 //Components
 import NewDeck from './components/NewDeck';
 import HomeScreen from "./components/HomeScreen";
+import DeckMainPage from "./components/DeckMainPage";
+import DeckList from "./components/DeckList";
 //Colors
 import { purple, white } from './utils/colors';
 
@@ -34,6 +36,12 @@ const MainNavigator = createAppContainer(createStackNavigator({
   NewDeck: {
     screen: NewDeck,
   },
+  DeckMainPage: {
+    screen: DeckMainPage,
+  },
+  DeckList: {
+    screen: DeckList,
+  }
 }))
 
 export default class App extends Component {

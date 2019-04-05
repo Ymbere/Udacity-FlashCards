@@ -23,7 +23,7 @@ class DeckList extends Component {
             })))
     }
     render() {
-        const { decks } = this.props
+        const { decks, navigation } = this.props
         const { ready } = this.state
 
         if (ready === false) {
@@ -37,6 +37,7 @@ class DeckList extends Component {
                     renderItem={({ item }) => (
                         <DeckCard
                             id={item.id}
+                            navigation={navigation}
                         />
                     )}
                     keyExtractor={item => item.id.toString()}

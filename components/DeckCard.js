@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 //Redux stuff
 import { connect } from 'react-redux'
+import { NavigationActions } from "react-navigation";
 
 class DeckCard extends Component {
     render() {
@@ -9,7 +10,12 @@ class DeckCard extends Component {
         const { title, cards, id } = deck
         return (
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate(
+                        'DeckMainPage',
+                        { deckID: id }
+                    )}
+                >
                     <Text>{title}</Text>
                 </TouchableOpacity>
                 <Text>{cards.length}</Text>
