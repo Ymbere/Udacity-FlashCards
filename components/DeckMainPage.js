@@ -36,6 +36,12 @@ class DeckMainPage extends Component {
                 <Text>{title}</Text>
                 <Text>{cardNumber}</Text>
                 <Button
+                    onPress={() => {
+                        this.props.navigation.navigate(
+                            'NewCard',
+                            { parentID: id }
+                        )
+                    }}
                     title="Add Card"
                 />
                 <Button
