@@ -45,6 +45,12 @@ class DeckMainPage extends Component {
                     title="Add Card"
                 />
                 <Button
+                    onPress={() => {
+                        this.props.navigation.navigate(
+                            'Quiz',
+                            { deckID: id }
+                        )
+                    }}
                     title="Quiz"
                 />
             </View>

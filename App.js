@@ -16,6 +16,7 @@ import HomeScreen from "./components/HomeScreen";
 import DeckMainPage from "./components/DeckMainPage";
 import DeckList from "./components/DeckList";
 import NewCard from "./components/NewCard";
+import Quiz from "./components/Quiz";
 //Colors
 import { purple, white } from './utils/colors';
 
@@ -45,6 +46,9 @@ const MainNavigator = createAppContainer(createStackNavigator({
   },
   NewCard: {
     screen: NewCard,
+  },
+  Quiz: {
+    screen: Quiz,
   },
 }))
 

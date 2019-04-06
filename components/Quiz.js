@@ -1,15 +1,118 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity, Text } from 'react-native'
+//Redux
+import { connect } from "react-redux";
 
+//Components
+import { Button } from "react-native-elements";
+import { AppLoading } from "expo";
+import { retriveDecks } from '../utils/API';
+import { receive_deck } from '../redux/actions/DeckActions';
 
 class Quiz extends Component {
+    state = {
+        arrayPosition: 0,
+        showAnswer: 0,
+        correctAnswers: 0,
+        ready: false
+    }
+
+    componentDidMount() {
+        const { dispatch } = this.props
+        retriveDecks()
+            .then((decks) => dispatch(receive_deck(decks)))
+            .then(() => this.setState(() => ({
+                ready: true,
+            })))
+    }
+
+    handleClickYes = () => {
+        this.setState((prevState) => ({
+            arrayPosition: prevState.arrayPosition + 1,
+            correctAnswers: prevState.correctAnswers + 1,
+            showAnswer: 0
+        }))
+    }
+
+    handleClickNo = () => {
+        this.setState((prevState) => ({
+            arrayPosition: prevState.arrayPosition + 1,
+            showAnswer: 0
+        }))
+    }
+
+    renderCard=() => {
+        const { cards, cardsNumber } = this.props
+        const { arrayPosition, showAnswer } = this.state
+
+        return (
+            <View>
+                <Text>{arrayPosition + 1}/{cardsNumber}</Text>
+
+                <Text>{ cards[arrayPosition].question }</Text>
+
+                {showAnswer === 0 &&
+                    <TouchableOpacity
+                        onPress={() => this.setState(() => ({
+                            showAnswer: 1
+                        }))}
+                    >
+                        <Text>Show answer</Text>
+                    </TouchableOpacity>
+                }
+
+                {showAnswer === 1 &&
+                    <View>
+                        <Text>{ cards[arrayPosition].answer }</Text>
+                        <Button
+                            onPress={() => this.handleClickYes()}
+                        >
+                            title="Yes"
+                        </Button>
+                        <Button
+                            onPress={() => this.handleClickNo()}
+                        >
+                            title="No"
+                        </Button>
+                    </View>
+                }
+
+            </View>
+        )
+    }
+
     render() {
+
+        const { cardsNumber } = this.props
+        const { arrayPosition, ready } = this.state
+
+        if (ready === false) {
+            return <AppLoading />
+        }
+
         return(
             <View>
-
+                {arrayPosition !== cardsNumber &&
+                    this.renderCard()
+                }
+                {arrayPosition === cardsNumber &&
+                    <View>
+                        <Text>You result is {this.state.correctAnswers} of {cardsNumber}</Text>
+                    </View>
+                }
             </View>
         )
     }
 }
 
-export default Quiz
+const mapStateToProps = ({ decks }, ownProps) => {
+    const deckID = ownProps.navigation.getParam('deckID', '1')
+    const deck = decks.find(deck => deck.id === deckID)
+
+    return {
+        cards: deck.cards,
+        cardsNumber: deck.cards.length
+    }
+}
+
+export default connect(mapStateToProps)(Quiz)
