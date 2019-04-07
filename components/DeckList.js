@@ -14,6 +14,7 @@ class DeckList extends Component {
     state = {
         ready: false
     }
+
     componentDidMount() {
         const { dispatch } = this.props
         retriveDecks()
@@ -22,6 +23,7 @@ class DeckList extends Component {
                 ready: true,
             })))
     }
+
     render() {
         const { decks, navigation } = this.props
         const { ready } = this.state
@@ -31,7 +33,7 @@ class DeckList extends Component {
         }
 
         return(
-            <View>
+            <View style={styles.container}>
                 <FlatList
                     data={decks}
                     renderItem={({ item }) => (
@@ -45,12 +47,21 @@ class DeckList extends Component {
             </View>
         )
     }
+
 }
 
+const styles = StyleSheet.create({
+    container : {
+        flex: 1,
+    }
+})
+
 const mapStateToProps = ({ decks }) => {
+
     return {
         decks
     }
+
 }
 
 export default connect(mapStateToProps)(DeckList)

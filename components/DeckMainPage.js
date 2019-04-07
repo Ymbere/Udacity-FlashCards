@@ -32,7 +32,7 @@ class DeckMainPage extends Component {
         }
 
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Text>{title}</Text>
                 <Text>{cardNumber}</Text>
                 <Button
@@ -42,16 +42,17 @@ class DeckMainPage extends Component {
                             { parentID: id }
                         )
                     }}
-                    title="Add Card"
+                    title="Create New Question"
                 />
                 <Button
                     onPress={() => {
                         this.props.navigation.navigate(
                             'Quiz',
-                            { deckID: id }
+                            { deckID: id },
+                            { navigation: this.props.navigation }
                         )
                     }}
-                    title="Quiz"
+                    title="Start a Quiz"
                 />
             </View>
         )
