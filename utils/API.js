@@ -17,7 +17,7 @@ export function retriveOneDeck(deck_id) {
 
 export async function addDeckToStorage(deck) {
     const newState = await addItem(deck)
-    AsyncStorage.setItem(FLASH_CARDS_STORAGE_KEY, JSON.stringify(newState))
+    await AsyncStorage.setItem(FLASH_CARDS_STORAGE_KEY, JSON.stringify(newState))
 }
 
 export async function addCardToStorage(card) {
