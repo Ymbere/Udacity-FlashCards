@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
 //Redux
 import { connect } from "react-redux";
 
@@ -46,7 +46,7 @@ class Quiz extends Component {
         const { arrayPosition, showAnswer } = this.state
 
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Text>{arrayPosition + 1}/{cardsNumber}</Text>
 
                 <Text>{ cards[arrayPosition].question }</Text>
@@ -62,7 +62,7 @@ class Quiz extends Component {
                 }
 
                 {showAnswer === 1 &&
-                    <View>
+                    <View style={{flex: 1}}>
                         <Text>{ cards[arrayPosition].answer }</Text>
                         <Button
                             onPress={() => this.handleClickYes()}
@@ -83,7 +83,7 @@ class Quiz extends Component {
 
     render() {
 
-        const { cardsNumber } = this.props
+        const { cardsNumber, navigation, deckID } = this.props
         const { arrayPosition, ready } = this.state
 
         if (ready === false) {
@@ -91,13 +91,29 @@ class Quiz extends Component {
         }
 
         return(
-            <View>
+            <View style={{flex: 1}}>
                 {arrayPosition !== cardsNumber &&
                     this.renderCard()
                 }
                 {arrayPosition === cardsNumber &&
-                    <View>
+                    <View style={{flex: 1}}>
                         <Text>You result is {this.state.correctAnswers} of {cardsNumber}</Text>
+                        <Button
+                            onPress={() => this.setState({
+                                arrayPosition: 0,
+                                correctAnswers: 0,
+                            })}
+                        >
+                            Restart Quiz
+                        </Button>
+                        <Button
+                            onPress={() => navigation.navigate(
+                                'DeckMainPage',
+                                { deckID }
+                            )}
+                        >
+                            Back To Deck
+                        </Button>
                     </View>
                 }
             </View>
@@ -105,13 +121,17 @@ class Quiz extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+})
+
 const mapStateToProps = ({ decks }, ownProps) => {
     const deckID = ownProps.navigation.getParam('deckID', '1')
     const deck = decks.find(deck => deck.id === deckID)
 
     return {
         cards: deck.cards,
-        cardsNumber: deck.cards.length
+        cardsNumber: deck.cards.length,
+        deckID
     }
 }
 
