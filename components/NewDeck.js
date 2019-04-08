@@ -1,11 +1,12 @@
 //Components
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Input, Button } from 'react-native-elements'
 //Redux stuff
 import { connect } from "react-redux";
 //Methods
 import { handleAddDeck } from "../redux/actions/DeckActions";
+import { addDeckToStorage } from "../utils/API";
 
 class NewDeck extends Component {
     state = {
@@ -17,7 +18,7 @@ class NewDeck extends Component {
 
     handleSubmit = () => {
 
-        const { dispatch } = this.props
+        const { dispatch, navigation } = this.props
         const { title, cards } = this.state
         const id = Date.now()
 
@@ -31,26 +32,65 @@ class NewDeck extends Component {
             cards
         }))
 
+        const deckSample = { title, id, cards}
+
         this.setState({
             title: ""
         })
+
+        addDeckToStorage(deckSample)
+            .then(() => navigation.navigate(
+                'DeckMainPage',
+                { deckID: id }
+            ))
+
     }
 
     render() {
         return(
-            <View>
-                <Text>Digite um nome para o deck</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Digite um nome para o deck</Text>
                 <Input
+                    style={styles.inputDeckName}
                     value={this.state.title}
                     onChangeText={(title) => this.setState({title})}
                 />
                 <Button
-                    title="Solid button"
+                    buttonStyle={styles.createDeckButton}
+                    titleStyle={styles.createDeckButtonTitle}
+                    title="Create Deck"
                     onPress={this.handleSubmit}
                 />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container : {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor : '#1abc9c'
+    },
+    title : {
+        textAlign : 'center',
+        fontSize : 60
+    },
+    inputDeckName : {
+        alignItems : 'center',
+        justifyContent : 'space-between'
+    },
+    createDeckButton : {
+        flexDirection : 'column',
+        backgroundColor : 'transparent',
+        borderWidth : 2,
+        borderColor : '#34495E',
+        borderRadius : 50
+    },
+    createDeckButtonTitle : {
+        color : '#34495E'
+    }
+})
 
 export default connect()(NewDeck)
