@@ -45,40 +45,117 @@ class Quiz extends Component {
         const { cards, cardsNumber } = this.props
         const { arrayPosition, showAnswer } = this.state
 
+        const styles = StyleSheet.create({
+            answerContainer : {
+                flex : 1,
+            },
+            buttonsContainer : {
+                flex : 1,
+                flexDirection : 'row'
+            },
+            buttonWrapper : {
+                flex : 1,
+                alignSelf : 'flex-end',
+                flexDirection : 'row',
+                alignItems : 'center',
+                justifyContent: 'center',
+            },
+            cardAnswerContainer : {
+                flex : 1,
+                alignItems : 'center'
+            },
+            textAnswerContainer : {
+                flex : 1,
+                flexDirection : 'column',
+                justifyContent : 'flex-start'
+            },
+            questionContainer : {
+                flex : 1,
+                alignItems : 'center'
+            },
+            textQuestionContainer : {
+                flex : 1,
+                flexDirection : 'column',
+                justifyContent : 'center'
+            },
+            textQuestion : {
+                fontSize : 50,
+                color : '#fff'
+            },
+            textAnswer : {
+                fontSize : 30,
+                color : '#bdc3c7'
+            },
+            cardCounter : {
+                fontSize : 40
+            },
+            yesButton : {
+                borderWidth : 2,
+                borderRadius : 5,
+                borderColor : '#34495E',
+                backgroundColor : '#34495E'
+            },
+            noButton : {
+                borderWidth : 2,
+                borderRadius : 5,
+                borderColor : '#34495E',
+                backgroundColor : 'transparent',
+            }
+        })
+
         return (
             <View style={{flex: 1}}>
-                <Text>{arrayPosition + 1}/{cardsNumber}</Text>
+                <Text style={styles.cardCounter}>{arrayPosition + 1}/{cardsNumber}</Text>
+                <View style={styles.questionContainer}>
+                    <View style={styles.textQuestionContainer}>
+                        <Text style={styles.textQuestion}>{ cards[arrayPosition].question }</Text>
 
-                <Text>{ cards[arrayPosition].question }</Text>
-
-                {showAnswer === 0 &&
-                    <TouchableOpacity
-                        onPress={() => this.setState(() => ({
-                            showAnswer: 1
-                        }))}
-                    >
-                        <Text>Show answer</Text>
-                    </TouchableOpacity>
-                }
+                        {showAnswer === 0 &&
+                            <TouchableOpacity
+                                onPress={() => this.setState(() => ({
+                                    showAnswer: 1
+                                }))}
+                            >
+                                <Text>Show answer</Text>
+                            </TouchableOpacity>
+                        }
+                    </View>
+                </View>
 
                 {showAnswer === 1 &&
-                    <View style={{flex: 1}}>
-                        <Text>{ cards[arrayPosition].answer }</Text>
-                        <Button
-                            onPress={() => this.handleClickYes()}
-                        >
-                            title="Yes"
-                        </Button>
-                        <Button
-                            onPress={() => this.handleClickNo()}
-                        >
-                            title="No"
-                        </Button>
+                    <View style={styles.answerContainer}>
+
+                        <View style={styles.cardAnswerContainer}>
+                            <View style={styles.textAnswerContainer}>
+                                <Text style={styles.textAnswer}>{ cards[arrayPosition].answer }</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.buttonsContainer}>
+                            <View style={styles.buttonWrapper}>
+                                <View style={{flex : 1}}>
+                                    <Button
+                                        buttonStyle={styles.yesButton}
+                                        onPress={() => this.handleClickYes()}
+                                        title="Yes"
+                                    />
+                                </View>
+                                <View style={{flex : 1}}>
+                                    <Button
+                                        buttonStyle={styles.noButton}
+                                        onPress={() => this.handleClickNo()}
+                                        title="No"
+                                    />
+                                </View>
+                            </View>
+                        </View>
+
                     </View>
                 }
 
             </View>
         )
+
     }
 
     render() {
@@ -91,29 +168,44 @@ class Quiz extends Component {
         }
 
         return(
-            <View style={{flex: 1}}>
+            <View style={styles.container}>
                 {arrayPosition !== cardsNumber &&
                     this.renderCard()
                 }
                 {arrayPosition === cardsNumber &&
                     <View style={{flex: 1}}>
-                        <Text>You result is {this.state.correctAnswers} of {cardsNumber}</Text>
-                        <Button
-                            onPress={() => this.setState({
-                                arrayPosition: 0,
-                                correctAnswers: 0,
-                            })}
-                        >
-                            Restart Quiz
-                        </Button>
-                        <Button
-                            onPress={() => navigation.navigate(
-                                'DeckMainPage',
-                                { deckID }
-                            )}
-                        >
-                            Back To Deck
-                        </Button>
+                        <View style={styles.resultContainer}>
+                            <View style={styles.resultTextContainer}>
+                                <Text style={styles.resultText}>You result is {this.state.correctAnswers} of {cardsNumber}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.buttonsContainer}>
+                            <View style={styles.buttonWrapper}>
+                                <View style={{ flex : 1}}>
+                                    <Button
+                                        buttonStyle={styles.restartQuizButton}
+                                        onPress={() => this.setState({
+                                            arrayPosition: 0,
+                                            correctAnswers: 0,
+                                        })}
+                                        title="Restart Quiz"
+                                    />
+                                </View>
+
+                                <View style={{ flex : 1}}>
+                                    <Button
+                                        buttonStyle={styles.backToDeckButton}
+                                        onPress={() => navigation.navigate(
+                                            'DeckMainPage',
+                                            { deckID }
+                                        )}
+                                        title="Back To Deck"
+                                    />
+                                </View>
+                            </View>
+                        </View>
+
                     </View>
                 }
             </View>
@@ -122,6 +214,46 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
+    container : {
+        flex: 1,
+        backgroundColor: '#1abc9c'
+    },
+    buttonsContainer : {
+        flex : 1,
+        flexDirection : 'row'
+    },
+    buttonWrapper : {
+        flex : 1,
+        alignSelf : 'flex-end',
+        flexDirection : 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    restartQuizButton : {
+        borderWidth : 2,
+        borderRadius : 5,
+        borderColor : '#34495E',
+        backgroundColor : '#34495E'
+    },
+    backToDeckButton : {
+        borderWidth : 2,
+        borderRadius : 5,
+        borderColor : '#34495E',
+        backgroundColor : 'transparent',
+    },
+    resultContainer : {
+        flex: 1,
+        alignItems : 'center',
+    },
+    resultTextContainer : {
+        flex : 1,
+        flexDirection: 'column',
+        justifyContent : 'flex-end'
+    },
+    resultText : {
+        fontSize : 50,
+        color : '#bdc3c7'
+    }
 })
 
 const mapStateToProps = ({ decks }, ownProps) => {
