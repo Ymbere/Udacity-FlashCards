@@ -28,7 +28,6 @@ function addDeck(deck) {
 export function handleAddDeck (deck) {
     return (dispatch) => {
         dispatch(addDeck(deck))
-        addDeckToStorage(deck)
     }
 }
 
