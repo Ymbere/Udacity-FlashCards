@@ -1,6 +1,6 @@
 //Components
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { Input, Button } from 'react-native-elements'
 //Redux stuff
 import { connect } from "react-redux";
@@ -48,20 +48,22 @@ class NewDeck extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                 <Text style={styles.title}>Digite um nome para o deck</Text>
-                <Input
-                    style={styles.inputDeckName}
-                    value={this.state.title}
-                    onChangeText={(title) => this.setState({title})}
-                />
+
+                    <Input
+                        style={styles.inputDeckName}
+                        value={this.state.title}
+                        onChangeText={(title) => this.setState({title})}
+                    />
+
                 <Button
                     buttonStyle={styles.createDeckButton}
                     titleStyle={styles.createDeckButtonTitle}
                     title="Create Deck"
                     onPress={this.handleSubmit}
                 />
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
