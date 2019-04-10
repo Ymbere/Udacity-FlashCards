@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 //Redux Stuff
 import { connect } from "react-redux";
 //Components
@@ -32,18 +32,19 @@ class NewCard extends Component {
 
     render() {
         return(
-            <View>
-                <Text>Digite uma pergunta para o card</Text>
-                <Text>{console.log("Aqui vai as props: ", this.props)}</Text>
-                <Input
-                    value={this.state.question}
-                    onChangeText={(question) => this.setState({question})}
-                />
-                <Text>Digite a resposta para a pergunta</Text>
-                <Input
-                    value={this.state.answer}
-                    onChangeText={(answer) => this.setState({answer})}
-                />
+            <View style={styles.container}>
+                <View style={styles.inputsContainer}>
+                    <Input
+                        placeholder="Digite uma pergunta para o card"
+                        value={this.state.question}
+                        onChangeText={(question) => this.setState({question})}
+                    />
+                    <Input
+                        placeholder="Digite a resposta para a pergunta"
+                        value={this.state.answer}
+                        onChangeText={(answer) => this.setState({answer})}
+                    />
+                </View>
                 <Button
                     title="Submit"
                     onPress={() => this.handleSubmit()}
@@ -52,5 +53,21 @@ class NewCard extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container : {
+        flex : 1,
+        backgroundColor : '#1abc9c'
+    },
+    inputsContainer : {
+        flex : 1,
+        alignItems : 'center',
+        justifyContent : 'center'
+    },
+    labelTitle : {
+        fontSize : 50,
+        color : '#fff'
+    }
+})
 
 export default connect()(NewCard)
