@@ -28,6 +28,8 @@ class NewCard extends Component {
             question: '',
             answer: ''
         }))
+
+        this.props.navigation.pop()
     }
 
     render() {
@@ -48,6 +50,7 @@ class NewCard extends Component {
                 <Button
                     title="Submit"
                     onPress={() => this.handleSubmit()}
+                    disabled={this.state.question === "" || this.state.answer === ""}
                 />
             </View>
         )

@@ -62,6 +62,7 @@ class NewDeck extends Component {
                     titleStyle={styles.createDeckButtonTitle}
                     title="Create Deck"
                     onPress={this.handleSubmit}
+                    disabled={this.state.title === ""}
                 />
             </KeyboardAvoidingView>
         )
