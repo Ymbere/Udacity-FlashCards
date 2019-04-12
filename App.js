@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { Button } from "react-native-elements";
-import { StackNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
+import { View, StatusBar } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation'
 //Redux
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -18,41 +17,73 @@ import DeckList from "./components/DeckList";
 import NewCard from "./components/NewCard";
 import Quiz from "./components/Quiz";
 //Colors
-import { purple, white } from './utils/colors';
+import { white, gradient1 } from './utils/colors';
+import { setLocalNotification } from "./utils/Notification";
 
 //Store
 const store = createStore(reducers, middleware)
 
 function AppStatusBar () {
   return (
-    <View style={{backgroundColor: purple ,height: Constants.statusBarHeight}}>
-      <StatusBar translucent backgroundColor={purple} />
+    <View style={{backgroundColor: gradient1 ,height: Constants.statusBarHeight}}>
+      <StatusBar translucent backgroundColor={gradient1} />
     </View>
   )
+}
+
+const StackNavigatorStyle = {
+  headerTintColor : white,
+  headerStyle : {
+    backgroundColor : '#3B4371'
+  }
 }
 
 const MainNavigator = createAppContainer(createStackNavigator({
   home: {
     screen: HomeScreen,
+    navigationOptions : {
+      ... StackNavigatorStyle,
+      header : null
+    }
   },
   NewDeck: {
+    navigationOptions: {
+      ...StackNavigatorStyle
+    },
     screen: NewDeck,
   },
   DeckMainPage: {
+    navigationOptions: {
+      ...StackNavigatorStyle
+    },
     screen: DeckMainPage,
   },
   DeckList: {
+    navigationOptions : {
+      ...StackNavigatorStyle
+    },
     screen: DeckList,
   },
   NewCard: {
     screen: NewCard,
+    navigationOptions: {
+      ...StackNavigatorStyle,
+      title: 'Create new question'
+    }
   },
   Quiz: {
+    navigationOptions : {
+      ...StackNavigatorStyle,
+      title: 'Quiz'
+    },
     screen: Quiz,
   },
 }))
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
   render() {
     return (
       <Provider store={store}>
