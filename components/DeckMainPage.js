@@ -10,6 +10,12 @@ import { retriveDecks } from '../utils/API';
 import { receive_deck } from '../redux/actions/DeckActions';
 
 class DeckMainPage extends Component {
+    static navigationOptions = ({navigation}) => {
+        const { deckTitle } = navigation.state.params
+        return {
+          title: deckTitle
+        }
+    }
     state = {
         ready: false
     }
@@ -122,11 +128,13 @@ const styles = StyleSheet.create({
     },
     deckName : {
         fontSize : 100,
-        color : '#fff'
+        color : '#fff',
+        textAlign : 'center'
     },
     deckCardsNumber : {
         fontSize : 50,
-        color : '#bdc3c7'
+        color : '#bdc3c7',
+        textAlign : 'center'
     }
 })
 

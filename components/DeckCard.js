@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 //Redux stuff
 import { connect } from 'react-redux'
-import { NavigationActions } from "react-navigation";
 
 class DeckCard extends Component {
     render() {
@@ -13,11 +12,11 @@ class DeckCard extends Component {
                 style={styles.buttonContainer}
                 onPress={() => this.props.navigation.navigate(
                     'DeckMainPage',
-                    { deckID: id }
+                    { deckID: id , deckTitle: title}
                 )}
             >
                 <Text style={styles.deckTitle}>{title}</Text>
-                <Text style={styles.cardsNumber}>{cards.length}</Text>
+                <Text style={styles.cardsNumber}>{cards.length} cards</Text>
             </TouchableOpacity>
         )
     }

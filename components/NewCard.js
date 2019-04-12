@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 //Redux Stuff
 import { connect } from "react-redux";
 //Components
 import { Input, Button } from "react-native-elements";
+//Methods
 import { handleAddCard } from '../redux/actions/DeckActions';
 class NewCard extends Component {
 
@@ -37,12 +38,12 @@ class NewCard extends Component {
             <View style={styles.container}>
                 <View style={styles.inputsContainer}>
                     <Input
-                        placeholder="Digite uma pergunta para o card"
+                        placeholder="Input the question"
                         value={this.state.question}
                         onChangeText={(question) => this.setState({question})}
                     />
                     <Input
-                        placeholder="Digite a resposta para a pergunta"
+                        placeholder="Input the answer"
                         value={this.state.answer}
                         onChangeText={(answer) => this.setState({answer})}
                     />

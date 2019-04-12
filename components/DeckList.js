@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, StyleSheet, Text, FlatList } from "react-native";
-
+import { View, StyleSheet, FlatList } from "react-native";
+import { AppLoading } from "expo";
 //Redux
 import { connect } from "react-redux";
-import { handleInitialData } from '../redux/actions/Shared';
 //Components
 import DeckCard from './DeckCard';
-import { AppLoading } from "expo";
+//Methods
 import { retriveDecks } from '../utils/API';
 import { receive_deck } from '../redux/actions/DeckActions';
 

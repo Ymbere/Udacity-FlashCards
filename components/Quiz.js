@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
+import { Button } from "react-native-elements";
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
+import { AppLoading } from "expo";
 //Redux
 import { connect } from "react-redux";
-
-//Components
-import { Button } from "react-native-elements";
-import { AppLoading } from "expo";
+//Methods
 import { retriveDecks } from '../utils/API';
 import { receive_deck } from '../redux/actions/DeckActions';
+import { clearLocalNotification, setLocalNotification } from '../utils/Notification';
 
 class Quiz extends Component {
     state = {
         arrayPosition: 0,
         showAnswer: 0,
         correctAnswers: 0,
-        ready: false
+        ready: false,
+        quizFinish : false,
     }
 
     componentDidMount() {
@@ -39,6 +40,14 @@ class Quiz extends Component {
             arrayPosition: prevState.arrayPosition + 1,
             showAnswer: 0
         }))
+    }
+
+    quizFinish = (arrayPosition, cardsNumber) => {
+        if (arrayPosition === cardsNumber) {
+            clearLocalNotification()
+                .then(setLocalNotification)
+        }
+        return arrayPosition === cardsNumber
     }
 
     renderCard=() => {
@@ -80,7 +89,8 @@ class Quiz extends Component {
             },
             textQuestion : {
                 fontSize : 50,
-                color : '#fff'
+                color : '#fff',
+                textAlign: 'center'
             },
             textAnswer : {
                 fontSize : 30,
@@ -116,7 +126,7 @@ class Quiz extends Component {
                                     showAnswer: 1
                                 }))}
                             >
-                                <Text>Show answer</Text>
+                                <Text style={{textAlign : 'center'}}>Show answer</Text>
                             </TouchableOpacity>
                         }
                     </View>
@@ -172,11 +182,11 @@ class Quiz extends Component {
                 {arrayPosition !== cardsNumber &&
                     this.renderCard()
                 }
-                {arrayPosition === cardsNumber &&
+                {this.quizFinish(arrayPosition, cardsNumber) &&
                     <View style={{flex: 1}}>
                         <View style={styles.resultContainer}>
                             <View style={styles.resultTextContainer}>
-                                <Text style={styles.resultText}>You result is {this.state.correctAnswers} of {cardsNumber}</Text>
+                                <Text style={styles.resultText}>Your score is {this.state.correctAnswers} of {cardsNumber}</Text>
                             </View>
                         </View>
 
@@ -252,7 +262,8 @@ const styles = StyleSheet.create({
     },
     resultText : {
         fontSize : 50,
-        color : '#bdc3c7'
+        color : '#bdc3c7',
+        textAlign : 'center'
     }
 })
 
