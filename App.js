@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StatusBar } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator, createAppContainer, HeaderBackButton } from 'react-navigation'
 //Redux
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -53,9 +53,10 @@ const MainNavigator = createAppContainer(createStackNavigator({
     screen: NewDeck,
   },
   DeckMainPage: {
-    navigationOptions: {
-      ...StackNavigatorStyle
-    },
+    navigationOptions: ({ navigation }) => ({
+      ...StackNavigatorStyle,
+      headerLeft:(<HeaderBackButton tintColor={white} onPress={()=>{navigation.navigate('home')}}/>)
+    }),
     screen: DeckMainPage,
   },
   DeckList: {

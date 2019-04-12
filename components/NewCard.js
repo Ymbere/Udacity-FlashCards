@@ -49,6 +49,7 @@ class NewCard extends Component {
                     />
                 </View>
                 <Button
+                    buttonStyle={styles.submitDeckButton}
                     title="Submit"
                     onPress={() => this.handleSubmit()}
                     disabled={this.state.question === "" || this.state.answer === ""}
@@ -71,7 +72,13 @@ const styles = StyleSheet.create({
     labelTitle : {
         fontSize : 50,
         color : '#fff'
-    }
+    },
+    submitDeckButton : {
+        backgroundColor : 'transparent',
+        borderWidth : 2,
+        borderColor : '#34495E',
+        borderRadius : 50,
+    },
 })
 
 export default connect()(NewCard)
