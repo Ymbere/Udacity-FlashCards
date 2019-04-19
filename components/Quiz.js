@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { retriveDecks } from '../utils/API';
 import { receive_deck } from '../redux/actions/DeckActions';
 import { clearLocalNotification, setLocalNotification } from '../utils/Notification';
+import QuizResult from './QuizResult';
 
 class Quiz extends Component {
     state = {
@@ -184,11 +185,7 @@ class Quiz extends Component {
                 }
                 {this.quizFinish(arrayPosition, cardsNumber) &&
                     <View style={{flex: 1}}>
-                        <View style={styles.resultContainer}>
-                            <View style={styles.resultTextContainer}>
-                                <Text style={styles.resultText}>Your score is {this.state.correctAnswers} of {cardsNumber}</Text>
-                            </View>
-                        </View>
+                        <QuizResult correctAnswers={this.state.correctAnswers} cardsNumber={cardsNumber}/>
 
                         <View style={styles.buttonsContainer}>
                             <View style={styles.buttonWrapper}>
