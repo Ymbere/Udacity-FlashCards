@@ -4,6 +4,14 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { connect } from 'react-redux'
 
 class DeckCard extends Component {
+    handleDeleteDeck = (event) => {
+        event.preventDefault()
+
+        const { dispatch } = this.props
+        const deckID = this.props.id
+
+        dispatch(handleDeleteDeck(deckID))
+    }
     render() {
         const { deck } = this.props
         const { title, cards, id } = deck
